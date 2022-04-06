@@ -94,7 +94,20 @@ vnet_subnet_id=nw.subnet.id,
 Now, run `pulumi preview`:
 
 ```bash
+     Type                                             Name                      Plan        Info
+     pulumi:pulumi:Stack                              refactor-workshop-ws-dev
+ +   ├─ cluster:index:Network                         workshop                  create
+ +   │  └─ azure-native:network:VirtualNetwork        workshop                  create
+ +   │     └─ azure-native:network:Subnet             workshop                  create
+ +-  ├─ azure-native:containerservice:ManagedCluster  workshop-cluster          replace     [diff: ]
+ -   ├─ azure-native:network:Subnet                   workshop                  delete
+ -   └─ azure-native:network:VirtualNetwork           workshop                  delete
 
+Resources:
+    + 3 to create
+    - 2 to delete
+    +-1 to replace
+    6 changes. 2 unchanged
 ```
 
 You'll notice here that Pulumi wants to replace all of the resources in this stack.
@@ -153,7 +166,17 @@ Notice here that we're also setting `parent=None`. We do this to let Pulumi know
 Now you can run `pulumi preview` again. You should see one resource to be created:
 
 ```bash
+Previewing update (dev)
 
+View Live: https://app.pulumi.com/jaxxstorm/refactor-workshop-ws/dev/previews/771853c9-e9ba-4e5d-8903-ea1fd0bde87f
+
+     Type                      Name                      Plan
+     pulumi:pulumi:Stack       refactor-workshop-ws-dev
+ +   └─ cluster:index:Network  workshop                  create
+
+Resources:
+    + 1 to create
+    5 unchanged
 ```
 
 This indicates that the component itself will be added to the stack, but now resource changes will actually happen! Pulumi now knows that you're aliasing the resources, and will act accordingly.

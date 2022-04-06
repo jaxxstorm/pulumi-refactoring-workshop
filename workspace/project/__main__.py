@@ -2,7 +2,7 @@
 
 import pulumi
 import typing
-
+import clusternetwork
 from pulumi_azure_native import network, resources, containerservice, managedidentity
 
 config = pulumi.Config()
@@ -13,17 +13,12 @@ tags = {"owner": "workshop", "purpose": "pulumi_workshop"}
 
 rg = resources.ResourceGroup("workshop", tags=tags)
 
-vnet = network.VirtualNetwork(
-    "workshop",
-    address_space=network.AddressSpaceArgs(
-        address_prefixes=[vnet_cidr],
-    ),
-    resource_group_name=rg.name,
-    tags=tags,
-)
-
-subnet = network.Subnet(
-    "workshop", virtual_network_name=vnet.name, resource_group_name=rg.name, address_prefix=subnet_cidr
+nw = clusternetwork.ClusterNetwork(
+    "workshop", clusternetwork.ClusterNetworkArgs(
+        vnet_cidr=vnet_cidr, 
+        subnet_cidr=subnet_cidr,
+        resource_group_name=rg.name,
+        tags=tags)
 )
 
 cluster = containerservice.ManagedCluster(
@@ -38,7 +33,7 @@ cluster = containerservice.ManagedCluster(
             os_type="Linux",
             type="VirtualMachineScaleSets",
             vm_size="Standard_DS3_v2",
-            vnet_subnet_id=subnet.id,
+            vnet_subnet_id=nw.subnet.id,
             name="nodepool",
         )
     ],
