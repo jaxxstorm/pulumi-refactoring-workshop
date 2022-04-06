@@ -1,4 +1,4 @@
-name: refactor-workshop
+name: cluster
 runtime:
   name: python
   options:

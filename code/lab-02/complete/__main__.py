@@ -4,6 +4,7 @@ import pulumi
 import typing
 import pulumi_azuread as azuread
 from pulumi_azure_native import network, resources, containerservice, managedidentity
+import clusternetwork
 
 config = pulumi.Config()
 vnet_cidr = config.require("vnet_cidr")
@@ -13,16 +14,13 @@ tags = {"owner": "lbriggs"}
 
 rg = resources.ResourceGroup("workshop", tags=tags)
 
-vnet = network.VirtualNetwork(
+nw = clusternetwork.ClusterNetwork(
     "workshop",
-    address_space=network.AddressSpaceArgs(
-        address_prefixes=[vnet_cidr],
+    clusternetwork.ClusterNetworkArgs(
+        vnet_cidr=vnet_cidr,
+        subnet_cidr=subnet_cidr,
+        resource_group_name=rg.name,
     ),
-    resource_group_name=rg.name,
-)
-
-subnet = network.Subnet(
-    "workshop", virtual_network_name=vnet.name, resource_group_name=rg.name, address_prefix=subnet_cidr
 )
 
 cluster = containerservice.ManagedCluster(
@@ -37,7 +35,7 @@ cluster = containerservice.ManagedCluster(
             os_type="Linux",
             type="VirtualMachineScaleSets",
             vm_size="Standard_DS3_v2",
-            vnet_subnet_id=subnet.id,
+            vnet_subnet_id=nw.subnet.id,
             name="nodepool",
         )
     ],
