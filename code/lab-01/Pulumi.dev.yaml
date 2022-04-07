@@ -1,4 +1,0 @@
-config:
-  azure-native:location: westus
-  refactor-workshop-lab-01:subnet_cidr: 192.168.0.0/28
-  refactor-workshop-lab-01:vnet_cidr: 192.168.0.0/24
