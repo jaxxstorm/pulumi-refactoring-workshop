@@ -18,7 +18,7 @@ Due to wide matrix this creates across an intersection of languages and operatin
 
 1. Hit the button!
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/jaxxstorm/pulumi-refactor-workshop)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/jaxxstorm/pulumi-refactoring-workshop/)
 
 2. Wait for GitPod to initialize. You'll then need to login to Pulumi: provide your Pulumi access token from [here](https://app.pulumi.com/settings/tokens)
 
