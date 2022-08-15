@@ -80,7 +80,7 @@ If you rerun `pulumi preview` now you'll notice Pulumi no longer wants to make a
 
 You now have a running cluster but no management of it using infrastructure as code.
 
-## Step 3 - Import the cluster
+## Step 4 - Import the cluster
 
 We need to get the cluster back under pulumi's management in the new project.
 
